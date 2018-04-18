@@ -339,7 +339,7 @@ you should place your code here."
     "Insert string for the current date/time formatted as 'YYYY-MM-DD HH24:MI:SS'."
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d %-H:%M:%S")))
-  (define-key evil-insert-state-map (kbd "; d t") 'now)
+  (define-key evil-insert-state-map (kbd "; t") 'now)
   (defun today ()
     "Insert string for today's date as 'YYYY-MM-DD'"
     (interactive)                 ; permit invocation in minibuffer
@@ -367,7 +367,7 @@ you should place your code here."
    '(spaceline-modified ((t (:background "Red" :foreground "#3E3D31"
                                          :inherit (quote mode-line))))))
   ;; 2018-03-11: add origami
-  (require 'origami)
+  ;; (require 'origami)
 
   ;; 2018-04-11: add section to cap keywords
   ;; ref: https://stackoverflow.com/questions/22091936/emacs-how-to-capitalize-all-keywords-example-in-sql
