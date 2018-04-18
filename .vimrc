@@ -45,6 +45,8 @@ elseif g:my_os ==? "Linux"
     let g:dts_format = '%a %b %d, %Y %H:%M:%S %z'
 endif
 let g:my_vim_path = fnamemodify(g:my_os_test, ":p:h") . g:my_slash
+" 2017-09-19: adding global variable for my color file.
+let g:my_colors = globpath(g:my_vim_path . "colors", 'arnold.vim')
 
 "-------------------------------------------------------------------------------
 " END: Environment setting section: Linux or Windows, home or work, etc.
