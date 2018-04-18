@@ -140,9 +140,9 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(cherry-blossom
+   dotspacemacs-themes '(alect-black
                          gandalf
-                         alect-black
+                         cherry-blossom
                          espresso
                          spacemacs-dark
                          cyberpunk
@@ -153,7 +153,10 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
+   ;; 2018-04-18: In Windows (work), cannot get "Source Code Pro", so using
+   ;; "Source Code Variable" instead.
+   ;; dotspacemacs-default-font '("Source Code Pro"
+   dotspacemacs-default-font '("Source Code Variable"
                                :size 15
                                :weight normal
                                :width normal
@@ -335,16 +338,18 @@ you should place your code here."
   ;; (setq custom-theme-directory '("~/.emacs.d/custom-themes"))
 
   ;; 2018-04-17: Created two functions to insert date and date/time.
+  ;; 2018-04-18: Commenting out key definitions at this point as cannot figure output
+  ;;             how to use/create an alternative "leader" key in Emacs.
   (defun now ()
     "Insert string for the current date/time formatted as 'YYYY-MM-DD HH24:MI:SS'."
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d %-H:%M:%S")))
-  (define-key evil-insert-state-map (kbd "; t") 'now)
+  ;; (define-key evil-insert-state-map (kbd "t") 'now)
   (defun today ()
     "Insert string for today's date as 'YYYY-MM-DD'"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d")))
-  (define-key evil-insert-state-map (kbd "; d") 'today)
+  ;; (define-key evil-insert-state-map (kbd "d") 'today)
 
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
