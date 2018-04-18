@@ -1,0 +1,116 @@
+# Conky, a system monitor, based on torsmo
+#
+# Any original torsmo code is licensed under the BSD license
+#
+# All code written since the fork of torsmo is licensed under the GPL
+#
+# Please see COPYING for details
+#
+# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+# Copyright (c) 2005-2007 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# $Id: conky.conf 1193 2008-06-21 20:37:58Z ngarofil $
+# -----------------------------------------------------------------------------
+# Color chart:
+# White     #FFFFFF
+# Black     #000000
+# Gray      #808080
+# Red       #FF0000
+# Yellow    #FFFF00
+# Blue      #0000FF
+# Green     #008000
+# Olive     #808000
+# Lime      #00FF00
+# Aqua      #00FFFF
+# Navy      #000080
+# Teal      #008080
+# Maroon    #800000
+
+alignment bottom_right
+background no
+max_text_width 0
+border_width 1
+cpu_avg_samples 2
+default_color white
+default_outline_color white
+default_shade_color white
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+font 7x13
+gap_x 6
+# 2010-04-12: A gap_y valued 10 sits Conky right above Menu bar.
+gap_y 15
+# ALWAYS keep min_size and max_width the same
+# Size 240 provides wide enough window for Southfield
+minimum_size 240 5
+maximum_width 300
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+stippled_borders 0
+uppercase no
+use_spacer none
+show_graph_scale no
+show_graph_range no
+
+# 2010-04-12: initial setup from hints (http://ubuntuforums.org/showthread.php?t=281865)
+#use_xft yes
+#xftfont Terminus:size=8
+#xftfont DejaVu Mono:size=8
+#xftfont Arial Mono:size=8
+# Text alpha when using Xft
+#xftalpha 0.8
+#font -artwiz-snap
+update_interval 2.0
+own_window yes
+own_window_class Conky
+own_window_type normal
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+
+#SWAP: $swapperc% $alignr $swap / $swapmax
+#${swapbar 3,100}
+TEXT
+IP: $color${addr wlan0} ${alignr}Up: $uptime
+$processes processes ($running_processes running) 
+$hr
+CPU->  cpu1: ${cpu cpu1}% $alignr cpu2: ${cpu cpu2}%
+MEM:  $memperc% $alignr $mem / $memmax
+${membar 3,200}
+$hr
+Disk space: Free / Total
+ROOT:  ${fs_free /} /${fs_size /} 
+${fs_bar 3,200 /}
+HOME:  ${fs_free /home} /${fs_size /home} 
+#20150105: Tried this conditional color test, failed miserably
+#${if_match $fs_free / $fs_size > .5} ${color white} ${else} ${color red} ${end_if} 
+${fs_bar 3,200 /home}
+###DATA:  ${fs_free /data} /${fs_size /data} 
+###${fs_bar 3,200 /data}
+$hr
+${execi 1200 /home/arnold/bin/weather.sh 48034}
+${hr}
+${color lightgrey}Bitrate: ${wireless_bitrate wlan0} ${color} ${alignr}${color lightgrey}Link: ${color}${wireless_link_qual_perc wlan0}%
+${hr}
+${color white}DN: ${downspeed wlan0} k/s ${alignr}TOT: ${totaldown wlan0}
+# 20150115: Graphs are new.
+${color green} ${downspeedgraph wlan0}
+${color white}UP: ${upspeed wlan0} k/s ${alignr}TOT: ${totalup wlan0}
+${color green} ${upspeedgraph wlan0}
+${color white}Connections: ${tcp_portmon 1 65535 count} 
+#${color white}Connections: ${tcp_portmon 1 65535 count} $alignr Battery: ${battery_percent BAT1}%
