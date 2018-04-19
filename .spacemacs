@@ -353,7 +353,7 @@ Bound to Ctrl-C t in insert-mode"
   (define-key evil-insert-state-map (kbd "C-c d") 'today)
 
   ;; 2018-02-18: Set directory for Snippets.
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"))
 
   ;; 2018-02-18: Set several modes to auto-wrap.
   ;; (setq visual-line-mode t)
