@@ -341,15 +341,16 @@ you should place your code here."
   ;; 2018-04-18: Commenting out key definitions at this point as cannot figure output
   ;;             how to use/create an alternative "leader" key in Emacs.
   (defun now ()
-    "Insert string for the current date/time formatted as 'YYYY-MM-DD HH24:MI:SS'."
+    "Insert string for the current date/time formatted as 'YYYY-MM-DD HH24:MI:SS'.
+Bound to Ctrl-C t in insert-mode"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d %-H:%M:%S")))
-  ;; (define-key evil-insert-state-map (kbd "t") 'now)
+  (define-key evil-insert-state-map (kbd "C-c t") 'now)
   (defun today ()
-    "Insert string for today's date as 'YYYY-MM-DD'"
+    "Insert string for today's date as 'YYYY-MM-DD', bound to Ctr-C d in insert-mode"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d")))
-  ;; (define-key evil-insert-state-map (kbd "d") 'today)
+  (define-key evil-insert-state-map (kbd "C-c d") 'today)
 
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
