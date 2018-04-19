@@ -50,7 +50,7 @@ values."
             shell-default-shell 'eshell
             shell-default-height 30
             shell-default-position 'bottom)
-     (spell-checking :variables syntax-checking-enable-by-default nil)
+     (spell-checking :variables spell-checking-enable-by-default nil)
      sql
      (syntax-checking :variables syntax-checking-enable-by-default nil)
      ;; 2018-01-14: install a boatload of new themes
