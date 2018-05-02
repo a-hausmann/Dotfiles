@@ -333,6 +333,9 @@ you should place your code here."
   ;; 2018-04-05: Set custom directory for themes
   ;; (setq custom-theme-directory '("~/.emacs.d/custom-themes"))
 
+  ;; 2018-04-30: Add new hook to delete trailing whitespace before saving files.
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
   ;; 2018-04-17: Created two functions to insert date and date/time.
   ;; 2018-04-18: Commenting out key definitions at this point as cannot figure output
   ;;             how to use/create an alternative "leader" key in Emacs.
@@ -347,7 +350,7 @@ Bound to Ctrl-C t in insert-mode"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d")))
   (define-key evil-insert-state-map (kbd "C-c d") 'today)
-
+  
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"))
 
@@ -367,7 +370,7 @@ Bound to Ctrl-C t in insert-mode"
   (spaceline-emacs-theme)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-modified)
   (custom-set-faces
-   '(spaceline-modified ((t (:background "Red" :foreground "#3E3D31"
+   '(spaceline-modified ((t (:background "#FF0000" :foreground "#3E3D31"
                                          :inherit (quote mode-line))))))
   ;; 2018-03-11: add origami
   ;; (require 'origami)
