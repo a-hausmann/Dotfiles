@@ -337,6 +337,9 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; 2018-05-02: suppress warnings for yasnippet
+  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+
   ;; 2018-04-05: Set custom directory for themes
   ;; (setq custom-theme-directory '("~/.emacs.d/custom-themes"))
 
