@@ -37,7 +37,14 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle-spacing
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-private-snippets-directory nil)
      better-defaults
      emacs-lisp
      git
@@ -353,7 +360,7 @@ Bound to Ctrl-C t in insert-mode"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d")))
   (define-key evil-insert-state-map (kbd "C-c d") 'today)
-  
+
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"))
 
@@ -387,7 +394,7 @@ Bound to Ctrl-C t in insert-mode"
     (interactive)
     (require 'sql)
     (save-excursion
-      (dolist (keywords sql-mode-sql-font-lock-keywords) 
+      (dolist (keywords sql-mode-sql-font-lock-keywords)
         (goto-char (point-min))
         (while (re-search-forward (car keywords) nil t)
           (unless (point-in-comment)
