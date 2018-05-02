@@ -152,10 +152,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   ;; 2018-04-18: In Windows (work), cannot get "Source Code Pro", so using
-   ;; "Source Code Variable" instead.
-   ;; dotspacemacs-default-font '("Source Code Pro"
-   dotspacemacs-default-font '("Source Code Variable"
+   dotspacemacs-default-font '("Source Code Pro"
                                :size 15
                                :weight normal
                                :width normal
@@ -363,6 +360,7 @@ Bound to Ctrl-C t in insert-mode"
   ;; Activate column indicator in prog-mode and text-mode
   (add-hook 'prog-mode-hook 'turn-on-fci-mode)
   (add-hook 'text-mode-hook 'turn-on-fci-mode)
+  (add-hook 'sql-mode-hook 'turn-on-fci-mode)
 
   ;; 2018-02-14: Added code to modify face when buffer has been modified.
   (require 'spaceline-config)
