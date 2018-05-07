@@ -37,7 +37,14 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle-spacing
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-private-snippets-directory nil)
      better-defaults
      emacs-lisp
      git
@@ -330,6 +337,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+<<<<<<< HEAD
   ;; 2018-05-06: Always follow symbolic links for files under version control
   (setq vc-follow-symlinks t)
 
@@ -350,6 +358,10 @@ you should place your code here."
   ;;         (unless (point-in-comment)
   ;;           (goto-char (match-beginning 0))
   ;;           (upcase-word 1))))))
+=======
+  ;; 2018-05-02: suppress warnings for yasnippet
+  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+>>>>>>> eeb410a5c9a1ca92e865da50547701af6759c29a
 
   ;; 2018-04-05: Set custom directory for themes
   ;; (setq custom-theme-directory '("~/.emacs.d/custom-themes"))
