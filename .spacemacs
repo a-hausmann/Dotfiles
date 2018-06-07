@@ -338,8 +338,31 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+<<<<<<< HEAD
+  ;; 2018-05-06: Always follow symbolic links for files under version control
+  (setq vc-follow-symlinks t)
+
+  ;; 2018-05-05: Attempt to ucase SQL keywords.
+  ;; Does NOT work well at all, ucases partial fields, i.e. "LOAD_ADD_dt"
+  ;; (defun point-in-comment ()
+  ;;   (let ((syn (syntax-ppss)))
+  ;;     (and (nth 8 syn)
+  ;;          (not (nth 3 syn)))))
+
+  ;; (defun my-capitalize-all-sql-keywords ()
+  ;;   (interactive)
+  ;;   ;; (require 'sql)
+  ;;   (save-excursion
+  ;;     (dolist (keywords sql-mode-oracle-font-lock-keywords)
+  ;;       (goto-char (point-min))
+  ;;       (while (re-search-forward (car keywords) nil t)
+  ;;         (unless (point-in-comment)
+  ;;           (goto-char (match-beginning 0))
+  ;;           (upcase-word 1))))))
+=======
   ;; 2018-05-02: suppress warnings for yasnippet
   (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+>>>>>>> eeb410a5c9a1ca92e865da50547701af6759c29a
 
   ;; 2018-04-05: Set custom directory for themes
   ;; (setq custom-theme-directory '("~/.emacs.d/custom-themes"))
