@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      my_mappings.vim
-" Last modified: Mon Sep 18, 2017 00:07:48 -0400
+" Last modified: Fri May 18, 2018 07:59:40
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -98,6 +98,9 @@ nnoremap <leader>em :execute "edit " . g:my_vim_path . "my_mappings.vim"<cr>
 nnoremap <leader>sf :execute "split " . g:my_vim_path . "my_functions.vim"<cr>
 nnoremap <leader>vf :execute "vsplit " . g:my_vim_path . "my_functions.vim"<cr>
 nnoremap <leader>ef :execute "edit " . g:my_vim_path . "my_functions.vim"<cr>
+" 2017-09-19: mapping for my color file, "arnold.vim"
+nnoremap <leader>ec :execute "edit " . g:my_vim_path . g:my_slash . "colors" . g:my_slash . "arnold.vim"<cr>
+
 " Open Quickfix window
 nnoremap <silent><leader>co :copen<CR>
 " Close Quickfix window
@@ -106,8 +109,7 @@ nnoremap <silent><leader>cc :cclose<CR>
 " nnoremap <silent><leader>so :source %<CR>
 
 " 20131021: CTRL-n to toggle NERDTree
-" 2017-09-16: do NOT use NerdTree anymore
-" nnoremap <silent> <C-n> :NERDTreeToggle<CR>
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 " 20140125: F5 to toggle spell-check
 nnoremap <silent> <F5> :setlocal spell! spelllang=en_us<CR>
 
@@ -125,14 +127,13 @@ inoremap <c-u> <esc>g~awea
 nnoremap <silent> <C-F12> :set relativenumber!<cr>
 nnoremap <silent> <C-F11> :set number!<cr>
 
+" 2017-09-15: do NOT map for EasyAlign (not installed) until I can test it out.
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-" 2017-09-16: Use <leader> instead as "ga" to valuable to lose.
-xmap <Leader>ga <Plug>(EasyAlign)
+" xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap <Leader>ga <Plug>(EasyAlign)
+" nmap ga <Plug>(EasyAlign)
 
-"nnoremap <F2> :cd /home/arnold/winDocs <CR>
 "nnoremap lp# :cd /data/arnold/Politics<CR>sr
 nnoremap lp# :call MyPolitics()<CR>
 " nnoremap <leader>lp :lcd $HOME/data/arnold/Politics <bar> :CtrlPDir $HOME/data/arnold/Politics<c-x>
@@ -155,6 +156,13 @@ inoremap <silent> <leader>dt <C-R>=strftime('%Y-%m-%d')<CR>
 nnoremap <silent> <leader>dts "=strftime('%Y-%m-%d %H:%M:%S')<CR>p
 vnoremap <silent> <leader>dts "=strftime('%Y-%m-%d %H:%M:%S')<CR>p
 inoremap <silent> <leader>dts <C-R>=strftime('%Y-%m-%d %H:%M:%S')<CR>
+" 2017-12-12: add new date string mappings
+nnoremap <silent> <leader>day "=strftime('%A')<CR>p
+vnoremap <silent> <leader>day "=strftime('%A')<CR>p
+inoremap <silent> <leader>day <C-R>=strftime('%A')<CR>
+nnoremap <silent> <leader>dstr "=strftime('%Y%m%d')<CR>p
+vnoremap <silent> <leader>dstr "=strftime('%Y%m%d')<CR>p
+inoremap <silent> <leader>dstr <C-R>=strftime('%Y%m%d')<CR>
 inoremap <leader>2day <C-R>=strftime("%A")<CR>,<space>
 nnoremap <leader>2day "=strftime("%A")<CR>PA,<space>
 
@@ -239,18 +247,30 @@ inoremap <silent><leader>Sun Sunday
 nnoremap <leader>sf :syntax on<cr><bar>:syntax sync fromstart<cr><bar>:redraw!<cr>
 nnoremap <leader>mc 0R/*<esc>A */<esc>
 nnoremap <silent><c-f2> :set cursorcolumn!<cr>
+nnoremap <silent><a-f2> :set cursorline!<cr>
 nnoremap <silent><leader>slc :normal 0i/*  */<esc>2hi
 inoremap <silent><leader>slc <C-O>0<esc>i/*  */<esc>2hi
-
+inoremap <leader>cm /*  */<esc>2hi
 " 2017-07-12: Add better mapping for UltiSnipsEdit
 nnoremap <silent> <leader>esnip :UltiSnipsEdit<cr>
 
-" 2017-09-14: Suggested by Drew Neil, http://vimcasts.org/episodes/how-to-fold/
-" {{{
-" nnoremap <space> za
-" nnoremap <expr> <s-space> foldlevel(".") > 0 ? 'za' : ':normal <Nop>'
-" nnoremap <s-space> :if (foldlevel(".") > 0) | :normal za | :endif
-" }}}
+nnoremap <silent> <leader>tn :tabnew<cr>
+" 2017-09-29: Create 'break line'
+nnoremap <silent><leader>bl :normal o<c-o>80i-<esc>
 
-" 2017-09-17: F12 to toggle list settings.
-nnoremap <silent><f12> :set list!<cr>
+" 2017-10-11: Conditional mapping for working on MBD scripts.
+if g:at_work
+    nnoremap <silent><leader>cek :%s/\(^.*my_enc_key.*$\)/-- \1/c<cr>
+    nnoremap <silent><leader>uek :%s/^-- \(.*my_enc_key.*$\)/\1/c<cr>
+endif
+
+" 2018-01-17: show marks in current buffer
+nnoremap <silent><leader>mm :marks abcdefghijklmnopqrstuvwxyz<cr>
+
+" 2018-01-23: Create toggle for showing/not showing whitespace markers.
+nnoremap <silent><leader>ws :set list!<cr>
+
+" 2018-05-08: Mapping to delete blank lines in a buffer.
+nnoremap <silent><leader>dbl :%g/^$/del<cr>
+" 2018-05-18: Mapping to delete double spaces on a line.
+nnoremap <silent><leader>dds :s/\s\{2,}/ /g<cr>

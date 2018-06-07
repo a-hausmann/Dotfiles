@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      my_functions.vim
-" Last modified: Mon Sep 11, 2017 23:06:40 -0400
+" Last modified: Thu Jun 07, 2018 13:08:05
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -229,11 +229,13 @@ endfunction
 " 'Last modified: ' can have up to 10 characters before (they are retained).
 " Restores cursor and window position using save_cursor variable.
 " 2017-07-10: change to use global date/timestamp format variable.
+" 2018-06-07: change to NOT REQUIRE a space AFTER colon; change atom to end at
+"             colon, and append a space after the atom, before strftime().
 function! LastModified()
     if &modified
         let save_cursor = getpos(".")
         let n = min([20, line("$")])
-        keepjumps exe '1,' . n . 's#^\(.\{,10}Last modified \{,7}: \).*#\1' . strftime(g:dts_format) . '#e'
+        keepjumps exe '1,' . n . 's#^\(.\{,10}Last modified \{,7}:\).*#\1 ' . strftime(g:dts_format) . '#e'
         call histdel('search', -1)
         call setpos('.', save_cursor)
     endif
@@ -496,3 +498,21 @@ nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
 nmap _= :call Preserve("normal gg=G")<CR>
 " }}}1
 
+
+"-------- ToggleHexEdit {{{1
+function! ToggleHexEdit()
+    " 2017-09-09: Ref.: http://vimcasts.org/episodes/tidying-whitespace/?success#comment-37459247
+    " Preparation: save last search, and cursor position.
+    if !exists("g:myHexEditInd")
+        let g:myHexEditInd = 'Y'
+        :%!xxd
+    elseif g:myHexEditInd == 'Y'
+        let g:myHexEditInd = 'N'
+        :%!xxd -r
+    else
+        let g:myHexEditInd = 'Y'
+        :%!xxd
+    endif
+endfunction 
+nnoremap <localleader>hex :call ToggleHexEdit()<CR>
+" }}}1
