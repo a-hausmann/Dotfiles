@@ -381,6 +381,11 @@ Bound to Ctrl-C t in insert-mode"
     (interactive)                 ; permit invocation in minibuffer
     (insert (format-time-string "%Y-%m-%d")))
   (define-key evil-insert-state-map (kbd "C-c d") 'today)
+  (defun my-datestamp ()
+    "Insert string for today's date/time as 'Day Mon DD, YYYY HH:MI:SS', bound to Ctr-C s in insert-mode"
+    (interactive)                 ; permit invocation in minibuffer
+    (insert (format-time-string "%a %b %d, %Y %-H:%M:%S")))
+  (define-key evil-insert-state-map (kbd "C-c s") 'my-datestamp)
 
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"))
@@ -395,6 +400,7 @@ Bound to Ctrl-C t in insert-mode"
   (add-hook 'prog-mode-hook 'turn-on-fci-mode)
   (add-hook 'text-mode-hook 'turn-on-fci-mode)
   (add-hook 'sql-mode-hook 'turn-on-fci-mode)
+  (add-hook 'sql-mode-hook 'linum-relative-mode)
 
   ;; 2018-02-14: Added code to modify face when buffer has been modified.
   (require 'spaceline-config)
