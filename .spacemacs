@@ -392,8 +392,15 @@ Bound to Ctrl-C t in insert-mode"
 
   ;; 2018-02-18: Set several modes to auto-wrap.
   ;; (setq visual-line-mode t)
-  (add-hook 'org-mode-hook 'turn-on-visual-line-mode)
+  ;;(add-hook 'org-mode-hook 'turn-on-visual-line-mode)
   (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+
+  ;; 2018-06-13: Selects for org-mode, ref: https://www.reddit.com/r/emacs/comments/43vfl1/enable_wordwrap_in_orgmode/czl98d4/
+  (add-hook 'org-mode-hook '(lambda ()
+                              ;; visual-line-mode: turns on word-wrap in buffer
+                              ;; org-indent-mode: indents text according to outline structure
+                              (visual-line-mode)
+                              (org-indent-mode)))
 
   ;; 2018-04-08: also turn on fill-column-indicator for programming/text mode.
   ;; Activate column indicator in prog-mode and text-mode
