@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      .gvimrc
-" Last modified: Sat Aug 19, 2017 20:53:41 -0400
+" Last modified: Tue Jun 05, 2018 22:34:10 -0400
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -73,6 +73,7 @@ if g:my_os ==? "Windows"
         let g:columns=150
     endif
 elseif g:my_os ==? "Linux"
+    set guifont=Source\ Code\ Pro\ Regular\ 11
     let g:lines=35
     let g:columns=130
 else
