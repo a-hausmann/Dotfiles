@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      my_functions.vim
-" Last modified: Thu Jun 07, 2018 13:08:05
+" Last modified: Wed Oct 31, 2018 12:15:43
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -198,6 +198,15 @@ function! RemoveTrailingWhitespace()
 endfunction
 command! -range RT <line1>,<line2>call RemoveTrailingWhitespace()
 " }}}1
+
+"-------- RemoveAllTrailingWhitespace {{{1
+function! RemoveTrailingWhitespace()
+  let save_cursor = getpos(".")
+  :%s/[ \t]\+$\|^[ \t]\+$//e
+  call setpos('.', save_cursor)
+endfunction
+" }}}1
+
 
 "-------- Preserve {{{1
 function! Preserve(command)
@@ -456,6 +465,12 @@ endfunction
 
 "-------- AddFoldMarks {{{1
 function! AddFoldMarks()
+    " 2018-09-11: fix tendency to place second line anywhere;
+    " first, capture current point, then "put" 2nd line, reposition to mark,
+    " finally "put" 1st line. This sets the beginning fold marker last, and in
+    " the right place.
+    let l = line(".")
+    let c = col(".")
     :call inputsave()
     let l:mynbr = input('Enter fold level: ')
     let l:mytext = input('Enter fold description: ')
@@ -472,11 +487,12 @@ function! AddFoldMarks()
     " 2017-07-20: too simple to fix; put str1 then str2, fold automatically
     " collapses, so "normal zo" to open with cursor at end marker, then
     " "normal k" to move to beginning marker.
-    put = l:str1
     put = l:str2
-    normal zo
-    normal k
-    echon ""
+    call cursor(l, c)
+    put = l:str1
+    " normal zo
+    " normal k
+    " echon ""
 endfunction
 nnoremap <silent>AFM :call AddFoldMarks()<cr>
 " }}}1
