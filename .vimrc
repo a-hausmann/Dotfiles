@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Sun Oct 01, 2017 20:38:15 -0400
+" Last modified: Wed Oct 31, 2018 12:17:05
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -120,6 +120,7 @@ Plugin 'haya14busa/incsearch.vim'
 Plugin 'vim-scripts/sql_iabbr.vim'
 Plugin 'vim-scripts/Teradata-13.10-syntax'
 Plugin 'nelstrom/vim-visual-star-search'
+Plugin 'nixon/vim-vmath'
 
 Plugin 'a-hausmann/hexHighlight'
 " 2017-07-09: Got UltiSnips working the way I do, see triggers below. Now load
@@ -390,6 +391,7 @@ if has("autocmd")
         autocmd FileType html                       inoremap <buffer> <leader>ret <C-V>&#x21a9;
     augroup END
 
+" 2018-08-20: corrected logical AND condition for BufWritePre
     augroup sql
         autocmd!
         " Set SQL files to let Surround use "*" to do C-style comments.
@@ -397,7 +399,11 @@ if has("autocmd")
         " And setlocal the commentstring variable to allow Commentary to use "--" for commenting.
         autocmd FileType sql                        setlocal cms=--%s
         autocmd FileType sql                        setlocal noai nosi inde undofile
-        autocmd FileType sql                        autocmd BufWritePre <buffer> :%s/\(\S\+\)\@<=\s\+$//e
+        " 2018-10-23: doesn't seem to work well any more, plus I may need to do TABS when capturing others' code
+        " autocmd FileType sql                        :autocmd! BufWritePre <buffer> :%s/\(\S\+\)\@<=\s\+$//e
+        " 2018-10-23: alterating for lines with NOTHING but whitespace, not done before.
+        " autocmd FileType sql                        :autocmd! BufWritePre <buffer> :%s/[ \t]\+$\|^[ \t]\+$//e
+        autocmd FileType sql                        :autocmd! :call RemoveAllTrailingWhitespace()<cr>
     augroup END
 
     " 2016-03-26: Source the vimrc file after saving it
