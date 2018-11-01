@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      my_functions.vim
-" Last modified: Wed Oct 31, 2018 12:15:43
+" Last modified: Thu Nov 01, 2018 10:05:56
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -200,13 +200,12 @@ command! -range RT <line1>,<line2>call RemoveTrailingWhitespace()
 " }}}1
 
 "-------- RemoveAllTrailingWhitespace {{{1
-function! RemoveTrailingWhitespace()
+function! RemoveAllTrailingWhitespace()
   let save_cursor = getpos(".")
   :%s/[ \t]\+$\|^[ \t]\+$//e
   call setpos('.', save_cursor)
 endfunction
 " }}}1
-
 
 "-------- Preserve {{{1
 function! Preserve(command)
