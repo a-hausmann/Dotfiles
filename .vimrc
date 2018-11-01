@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Wed Oct 31, 2018 12:17:05
+" Last modified: Thu Nov 01, 2018 08:55:03
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -403,7 +403,8 @@ if has("autocmd")
         " autocmd FileType sql                        :autocmd! BufWritePre <buffer> :%s/\(\S\+\)\@<=\s\+$//e
         " 2018-10-23: alterating for lines with NOTHING but whitespace, not done before.
         " autocmd FileType sql                        :autocmd! BufWritePre <buffer> :%s/[ \t]\+$\|^[ \t]\+$//e
-        autocmd FileType sql                        :autocmd! :call RemoveAllTrailingWhitespace()<cr>
+        " autocmd FileType sql                        :autocmd! :call RemoveAllTrailingWhitespace()<cr>
+        autocmd FileType sql                        :autocmd! BufWritePre <buffer> :call RemoveAllTrailingWhitespace()<cr>
     augroup END
 
     " 2016-03-26: Source the vimrc file after saving it
