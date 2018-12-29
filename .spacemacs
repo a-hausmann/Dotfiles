@@ -2,6 +2,14 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;; 2018-07-09: set up for debugging; all seems to work fine, but cannot use variable
+;; to assign "correct" font size in setq-default function. So found work-around
+;; to leave the Spacemacs default as is, but in user-init section add code to check
+;; host name ("system-name") to set there if on Serval laptop.
+;; (setq aeh-font-size (if (equal system-name "arnold-Serval-WS") 30 15))
+;; (message "System-Name: %s" system-name)         ;; returns "arnold-Serval-WS"
+;; (message "aeh-font-size: %s" aeh-font-size)     ;; returns 30
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
@@ -160,8 +168,11 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; Cannot get this to work--new variable "aeh-host-name" correctly populated, but cannot
+   ;; figure out how to use variable in assigned size attribute.
+   ;; 2018-07-09: workaround, "move" check to user-init section
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 15
+                               :size 30
                                :weight normal
                                :width normal
                                :powerline-scale 1.5)
@@ -328,6 +339,13 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (if (equal system-name "arnold-Serval-WS")
+     (setq-default dotspacemacs-default-font '("Source Code Pro"
+                                              :size 30
+                                              :weight normal
+                                              :width normal
+                                              :powerline-scale 1.5)))
+
   )
 
 (defun dotspacemacs/user-config ()
