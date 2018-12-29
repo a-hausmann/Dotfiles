@@ -306,7 +306,7 @@ values."
    ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc.
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
@@ -385,25 +385,77 @@ you should place your code here."
   ;; 2018-04-30: Add new hook to delete trailing whitespace before saving files.
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-  ;; 2018-04-17: Created two functions to insert date and date/time.
-  ;; 2018-04-18: Commenting out key definitions at this point as cannot figure output
-  ;;             how to use/create an alternative "leader" key in Emacs.
-  (defun now ()
-    "Insert string for the current date/time formatted as 'YYYY-MM-DD HH24:MI:SS'.
-Bound to Ctrl-C t in insert-mode"
-    (interactive)                 ; permit invocation in minibuffer
-    (insert (format-time-string "%Y-%m-%d %-H:%M:%S")))
-  (define-key evil-insert-state-map (kbd "C-c t") 'now)
-  (defun today ()
-    "Insert string for today's date as 'YYYY-MM-DD', bound to Ctr-C d in insert-mode"
-    (interactive)                 ; permit invocation in minibuffer
-    (insert (format-time-string "%Y-%m-%d")))
-  (define-key evil-insert-state-map (kbd "C-c d") 'today)
-  (defun my-datestamp ()
-    "Insert string for today's date/time as 'Day Mon DD, YYYY HH:MI:SS', bound to Ctr-C s in insert-mode"
-    (interactive)                 ; permit invocation in minibuffer
-    (insert (format-time-string "%a %b %d, %Y %-H:%M:%S")))
-  (define-key evil-insert-state-map (kbd "C-c s") 'my-datestamp)
+  ;; 2018-10-18: replaced all "insert date" code previously used with this:
+  (defconst aeh/date-simple "%m/%d/%Y" "Simple format: MM/DD/YYYY")
+  (defconst aeh/date-format "%Y-%m-%d" "Simple date as YYYY-MM-DD")
+  (defconst aeh/date-time-format "%Y-%m-%d %-H:%M:%S" "Simple Date with Time: YYYY-MM-DD HH:MI:SS")
+  (defconst aeh/day-format "%a %b %d, %Y" "English date as: Day Mon Date, Year")
+  (defconst aeh/day-time-format "%a %b %d, %Y %-H:%M:%S" "English Date Time as: Day Mon Date, Year HH:MI:SS")
+  (defconst aeh/full-day-format "%A, %B %d, %Y" "English date as: Day, Month Date, Year")
+  (defconst aeh/full-day-time-format "%A, %B %d, %Y %-H:%M:%S %p" "English Date Time as: Day, Month Date, Year HH:MI:SS PM")
+
+  (defun aeh/insert-date-simple ()
+    (interactive)
+    (insert (format-time-string aeh/date-simple)))
+
+  (defun aeh/insert-date-string ()
+    (interactive)
+    (insert (format-time-string aeh/date-format)))
+
+  (defun aeh/insert-date-time-string ()
+    (interactive)
+    (insert (format-time-string aeh/date-time-format)))
+
+  (defun aeh/insert-day-string ()
+    (interactive)
+    (insert (format-time-string aeh/day-format)))
+
+  (defun aeh/insert-day-time-string ()
+    (interactive)
+    (insert (format-time-string aeh/day-time-format)))
+
+  (defun aeh/insert-full-day-string ()
+    (interactive)
+    (insert (format-time-string aeh/full-day-format)))
+
+  (defun aeh/insert-full-day-time-string ()
+    (interactive)
+    (insert (format-time-string aeh/full-day-time-format)))
+
+  ;; Using "define-key" is "Style 2", or taking over the prefix, allowing the "C-c d" chord
+  ;; to kick off the hydra, and allow the hydra to show hints; setting the ENTIRE Hydra as
+  ;; color "blue" means that they hydra will exit once a choice is made, and if an
+  ;; undefined key is pressed (not a menu choice) that key is entered.
+  ;; Ref: https://github.com/abo-abo/hydra/wiki/Binding-Styles
+  ;; Ref: https://github.com/abo-abo/hydra/wiki/Hydra-Colors
+  (define-key evil-insert-state-map (kbd "C-c d") 'aeh/hydra-insert-date-menu/body)
+  ;; defhydra aeh/hydra-insert-date-menu (:color blue)
+  ;;  "Insert"
+  ;;  ("q" nil "quit")
+  ;;  ("d" aeh/insert-date-string "YYYY-MM-DD")
+  ;;  ("t" aeh/insert-date-time-string "YYYY-MM-DD HH:MI:SS")
+  ;;  ("D" aeh/insert-day-string "Day Mon Date, Year")
+  ;;  ("T" aeh/insert-day-time-string "Day Mon Date, Year HH:MI:SS"))
+  (defhydra aeh/hydra-insert-date-menu (:color blue)
+    "
+_q_: quit
+_s_: MM/DD/YYYY
+_d_: YYYY-MM-DD
+_t_: YYYY-MM-DD HH24:MI:SS
+_D_: DD Mon Date, Year
+_T_: DD Mon Date, Year HH24:MI:SS
+_e_: Day, Month Day, Year
+_E_: Day, Month Day, Year HH:MI:SS PM
+"
+    ("q" nil)
+    ("s" aeh/insert-date-simple)
+    ("d" aeh/insert-date-string )
+    ("t" aeh/insert-date-time-string)
+    ("D" aeh/insert-day-string)
+    ("T" aeh/insert-day-time-string)
+    ("e" aeh/insert-full-day-string)
+    ("E" aeh/insert-full-day-time-string))
+
 
   ;; 2018-02-18: Set directory for Snippets.
   (setq yas-snippet-dirs '("~/.emacs.d/private/snippets"))
@@ -414,11 +466,23 @@ Bound to Ctrl-C t in insert-mode"
   (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
 
   ;; 2018-06-13: Selects for org-mode, ref: https://www.reddit.com/r/emacs/comments/43vfl1/enable_wordwrap_in_orgmode/czl98d4/
-  (add-hook 'org-mode-hook '(lambda ()
-                              ;; visual-line-mode: turns on word-wrap in buffer
-                              ;; org-indent-mode: indents text according to outline structure
-                              (visual-line-mode)
-                              (org-indent-mode)))
+  ;; 2018-07-24: Using lambda does not work well--at all. change to multiple single-definition hooks.
+  (add-hook 'org-mode-hook 'visual-line-mode)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; 2018-10-19: Adding more Org configurations.
+  ;; (setq org-ellipsis "➤")   ;; Actually, I don't like this very much...at least not in Spacemacs.
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-export-with-smart-quotes t)
+  (setq org-src-window-setup 'current-window)                   ; Allows for "C-c '" to narrow to code being edited.
+
+  ;: 2018-10-22: Wow! Errors galore in Spacemacs UNTIL changing the simple "add-to-list" to an "eval-after-load" (see below).
+  ;; (add-to-list 'org-structure-template-alist '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+  ;; Allows for "<el TAB" to automatically set source block in emacs-lisp
+  (eval-after-load 'org
+    '(progn  (add-to-list 'org-structure-template-alist
+               '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))))
 
   ;; 2018-04-08: also turn on fill-column-indicator for programming/text mode.
   ;; Activate column indicator in prog-mode and text-mode
@@ -462,6 +526,7 @@ Bound to Ctrl-C t in insert-mode"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(magit-log-section-arguments (quote ("--decorate" "-n256")))
  '(package-selected-packages
    (quote
     (vimrc-mode dactyl-mode zenburn-theme zen-and-art-theme xterm-color white-sand-theme web-mode unfill underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme tagedit sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sql-indent spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme smeargle slim-mode shell-pop seti-theme scss-mode sass-mode reverse-theme rebecca-theme ranger railscasts-theme purple-haze-theme pug-mode professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme orgit organic-green-theme org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mwim mustang-theme multi-term monokai-theme monochrome-theme molokai-theme moe-theme mmm-mode minimal-theme material-theme markdown-toc markdown-mode majapahit-theme magit-gitflow magit-gh-pulls madhat2r-theme lush-theme light-soap-theme less-css-mode jbeans-theme jazz-theme ir-black-theme inkpot-theme htmlize heroku-theme hemisu-theme helm-gitignore helm-css-scss helm-company helm-c-yasnippet hc-zenburn-theme haml-mode gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht gh-md gandalf-theme fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flatui-theme flatland-theme farmhouse-theme exotica-theme evil-magit magit magit-popup git-commit ghub let-alist with-editor espresso-theme eshell-z eshell-prompt-extras esh-help emmet-mode dracula-theme django-theme diff-hl darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme company-web web-completion-data company-statistics company color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme auto-yasnippet yasnippet auto-dictionary apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))

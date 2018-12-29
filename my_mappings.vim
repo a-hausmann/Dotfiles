@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      my_mappings.vim
-" Last modified: Fri May 18, 2018 07:59:40
+" Last modified: Fri Sep 21, 2018 13:38:17
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -274,3 +274,10 @@ nnoremap <silent><leader>ws :set list!<cr>
 nnoremap <silent><leader>dbl :%g/^$/del<cr>
 " 2018-05-18: Mapping to delete double spaces on a line.
 nnoremap <silent><leader>dds :s/\s\{2,}/ /g<cr>
+
+" 2018-09-13: Mapping to set foldmethod in non-programming file.
+nnoremap <silent><leader>sfm :setlocal fdm=marker<cr>
+
+" 2018-09-21: map bindings for Damien Conway's "vim-vmath"
+vmap <expr>  ++  VMATH_YankAndAnalyse()
+nmap         ++  vip++
