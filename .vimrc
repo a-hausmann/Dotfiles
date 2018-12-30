@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Sat Dec 29, 2018 19:08:55 -0500
+" Last modified: Sat Dec 29, 2018 22:18:14 -0500
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -389,6 +389,8 @@ if has("autocmd")
         autocmd FileType html                       setlocal fo+=tl
         " Map insertion of "Return key" symbol in HTML code.
         autocmd FileType html                       inoremap <buffer> <leader>ret <C-V>&#x21a9;
+        " Set color schema to blue for HTML
+        colorscheme blue
     augroup END
 
 " 2018-08-20: corrected logical AND condition for BufWritePre
