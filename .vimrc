@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Thu Nov 01, 2018 10:05:44
+" Last modified: Sat Dec 29, 2018 19:08:55 -0500
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -428,4 +428,7 @@ endif
 " of other scripts. Have included file "testing.vim" which is my test-bed script.
 execute "source " . globpath(&rtp, 'my_functions.vim')
 execute "source " . globpath(&rtp, 'my_mappings.vim')
-execute "source " . globpath(&rtp, 'testing.vim')
+"execute "source " . globpath(&rtp, 'testing.vim')
+if filereadable(globpath(&rtp, 'testing.vim'))
+    execute "source " . globpath(&rtp, 'testing.vim')
+endif
