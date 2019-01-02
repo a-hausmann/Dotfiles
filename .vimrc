@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Sat Dec 29, 2018 22:18:14 -0500
+" Last modified: Sun Dec 30, 2018 20:27:39 -0500
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -26,6 +26,7 @@
 "                path to the vim subdirectory (".vim" or "vimfiles").
 "-------------------------------------------------------------------------------
 set nocompatible        " MUST BE first command as other options depend on it.
+" }}}1
 
 " Environment {{{1
 "-------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ let g:my_colors = globpath(g:my_vim_path . "colors", 'arnold.vim')
 "-------------------------------------------------------------------------------
 " END: Environment setting section: Linux or Windows, home or work, etc.
 "-------------------------------------------------------------------------------
+" }}}1
 
 " Plugin Management {{{1
 "-------------------------------------------------------------------------------
@@ -143,6 +145,7 @@ filetype plugin indent on
 "-------------------------------------------------------------------------------
 " END: Plugin management section -- Vundle (https://github.com/VundleVim/Vundle.vim)
 "-------------------------------------------------------------------------------
+" }}}1
 
 " General Settings {{{1
 "-------------------------------------------------------------------------------
@@ -219,16 +222,21 @@ if g:my_os ==? "Linux"
     setlocal errorformat=/usr/bin/line\ %l\ column\ %v\ -\ %m
 endif
 if has('gui_running')
-    "colorscheme "g:my_colorscheme_gui"
+    " colorscheme "g:my_colors"
     colorscheme arnold
     set background=light
 else
     " Tell vim to use 256 colors
     set t_Co=256
-    colorscheme default
+    " colorscheme default
+    colorscheme arnold
     set background=light
     setlocal nospell spelllang=en_us
 endif
+" 2018-12-30
+colorscheme arnold
+set background=light
+
 
 " Set up highlighting with "match" command; create highlight group
 " named "TrailingWhiteSpace" (always explicitly name groups) to regexp.
@@ -238,6 +246,7 @@ highlight SpellBad term=standout ctermbg=yellow ctermfg=15 term=underline cterm=
 "-------------------------------------------------------------------------------
 " END: General vim settings
 "-------------------------------------------------------------------------------
+" }}}1
 
 " Configure Plugin Variables {{{1
 "-------------------------------------------------------------------------------
@@ -306,6 +315,7 @@ let g:session_command_aliases = 1
 "-------------------------------------------------------------------------------
 " END: Configure Plugin variables.
 "-------------------------------------------------------------------------------
+" }}}1
 
 " Auto Groups/Commands {{{1
 "------------------------------------------------------
@@ -420,6 +430,7 @@ endif
 "------------------------------------------------------
 " END: Auto groups/Auto commands
 "------------------------------------------------------
+" }}}1
 
 " Finale - Source externals {{{1
 "------------------------------------------------------
@@ -434,3 +445,7 @@ execute "source " . globpath(&rtp, 'my_mappings.vim')
 if filereadable(globpath(&rtp, 'testing.vim'))
     execute "source " . globpath(&rtp, 'testing.vim')
 endif
+"------------------------------------------------------
+" END: Finale
+"------------------------------------------------------
+" }}}1
