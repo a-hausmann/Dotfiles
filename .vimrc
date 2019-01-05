@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Sun Dec 30, 2018 20:27:39 -0500
+" Last modified: Fri Jan 04, 2019 23:59:55 -0500
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -26,6 +26,10 @@
 "                path to the vim subdirectory (".vim" or "vimfiles").
 "-------------------------------------------------------------------------------
 set nocompatible        " MUST BE first command as other options depend on it.
+
+"-------------------------------------------------------------------------------
+" END: Documentation
+"-------------------------------------------------------------------------------
 " }}}1
 
 " Environment {{{1
@@ -100,7 +104,8 @@ Plugin 'd11wtq/ctrlp_bdelete.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-sleuth'
+" 2018-11-21: Remove Sleuth as it keeps setting my shiftwidth=3 when I want 4
+" Plugin 'tpope/vim-sleuth'
 " 2017-10-01: Using airline, so no need for flagship, IMO
 " Plugin 'tpope/vim-flagship'
 Plugin 'tpope/vim-repeat'
@@ -222,21 +227,16 @@ if g:my_os ==? "Linux"
     setlocal errorformat=/usr/bin/line\ %l\ column\ %v\ -\ %m
 endif
 if has('gui_running')
-    " colorscheme "g:my_colors"
+    "colorscheme "g:my_colorscheme_gui"
     colorscheme arnold
     set background=light
 else
     " Tell vim to use 256 colors
     set t_Co=256
-    " colorscheme default
-    colorscheme arnold
+    colorscheme default
     set background=light
     setlocal nospell spelllang=en_us
 endif
-" 2018-12-30
-colorscheme arnold
-set background=light
-
 
 " Set up highlighting with "match" command; create highlight group
 " named "TrailingWhiteSpace" (always explicitly name groups) to regexp.
@@ -373,6 +373,7 @@ if has("autocmd")
         " and end with 3 right braces; both are 'comments'
         autocmd FileType vim                        setlocal fdm=marker
         autocmd FileType sql,sh                     setlocal fdm=marker
+        autocmd FileType sql                        setlocal si et ts=4 sts=4 sw=4
         " Treat .rss files as XML
         autocmd BufNewFile,BufRead *.rxx setfiletype xml
 
@@ -399,8 +400,10 @@ if has("autocmd")
         autocmd FileType html                       setlocal fo+=tl
         " Map insertion of "Return key" symbol in HTML code.
         autocmd FileType html                       inoremap <buffer> <leader>ret <C-V>&#x21a9;
-        " Set color schema to blue for HTML
-        colorscheme blue
+        " Set colorscheme to blue for HTML
+        autocmd BufRead,BufNewFile,FileType html    colorscheme blue
+        autocmd BufLeave *                          colorscheme arnold
+        " autocmd BufRead,BufNewFile,FileType !html   colorscheme arnold
     augroup END
 
 " 2018-08-20: corrected logical AND condition for BufWritePre
@@ -441,11 +444,10 @@ endif
 " of other scripts. Have included file "testing.vim" which is my test-bed script.
 execute "source " . globpath(&rtp, 'my_functions.vim')
 execute "source " . globpath(&rtp, 'my_mappings.vim')
-"execute "source " . globpath(&rtp, 'testing.vim')
 if filereadable(globpath(&rtp, 'testing.vim'))
     execute "source " . globpath(&rtp, 'testing.vim')
 endif
-"------------------------------------------------------
+"-------------------------------------------------------------------------------
 " END: Finale
-"------------------------------------------------------
+"-------------------------------------------------------------------------------
 " }}}1

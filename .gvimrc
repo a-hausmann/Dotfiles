@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      .gvimrc
-" Last modified: Sun Dec 30, 2018 19:09:00 -0500
+" Last modified: Tue Jun 05, 2018 22:34:10 -0400
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
