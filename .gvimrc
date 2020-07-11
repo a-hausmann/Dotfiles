@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " Filename:      .gvimrc
-" Last modified: Tue Jun 05, 2018 22:34:10 -0400
+" Last modified: Thu Jun 25, 2020 22:33:11 -0400
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -81,11 +81,14 @@ else
     let g:columns=130
 endif
 
+let g:color_scheme = ""
 if has("gui_running")
   " GUI is running or is about to start.
   " Maximize gvim window.
     :execute "set lines=".g:lines
     :execute "set columns=".g:columns
+    colorscheme evening
+    let g:color_scheme="evening"
 else
   " This is console Vim.
     if exists("+lines")

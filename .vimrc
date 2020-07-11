@@ -1,7 +1,7 @@
 " Documentation {{{1
 "-------------------------------------------------------------------------------
 " Filename:      .vimrc
-" Last modified: Fri Jan 04, 2019 23:59:55 -0500
+" Last modified: Thu Jun 25, 2020 22:39:06 -0400
 " Version:       1.0
 " Author:        Arnold Hausmann <aehjr1@gmail.com>
 " License:       This program is free software; you can redistribute it
@@ -191,7 +191,9 @@ set showmode            " display INSERT/REPLACE modes
 set incsearch           " show incremental search hits
 set hlsearch            " high-light search results
 " 2016-09-03: Use listchars to show tabs and trailing white space
-set listchars=tab:>~,trail:.
+" set listchars=tab:>~,trail:.
+" 2019-01-06: Tip from Damien Conway, use Unicode characters...
+exec "set listchars=tab:\uBB\uB7,trail:\uAC,nbsp:~"
 set list
 set autochdir               " cd to current buffer on file open
 " 20130907: several based on Steve Losh blog page,
@@ -226,17 +228,19 @@ if g:my_os ==? "Linux"
     setlocal makeprg=/usr/bin/tidy\ -quiet\ -config\ ~/.vim/Tidy.cfg\ -errors\ %
     setlocal errorformat=/usr/bin/line\ %l\ column\ %v\ -\ %m
 endif
-if has('gui_running')
-    "colorscheme "g:my_colorscheme_gui"
-    colorscheme arnold
-    set background=light
-else
-    " Tell vim to use 256 colors
-    set t_Co=256
-    colorscheme default
-    set background=light
-    setlocal nospell spelllang=en_us
-endif
+" 20200625: Ref: https://vi.stackexchange.com/questions/471/why-do-i-need-both-a-vimrc-and-a-gvimrc
+" Cannot use "has('gui_running')" test in .vimrc, which is wny the initial colorscheme isn't working.
+" if has('gui_running')
+    " colorscheme arnold
+    " colorscheme evening
+    " set background=light
+" else
+" endif
+" Tell vim to use 256 colors as default for terminal; will be overridden in .gvimrc
+set t_Co=256
+colorscheme default
+set background=light
+setlocal nospell spelllang=en_us
 
 " Set up highlighting with "match" command; create highlight group
 " named "TrailingWhiteSpace" (always explicitly name groups) to regexp.
@@ -402,7 +406,8 @@ if has("autocmd")
         autocmd FileType html                       inoremap <buffer> <leader>ret <C-V>&#x21a9;
         " Set colorscheme to blue for HTML
         autocmd BufRead,BufNewFile,FileType html    colorscheme blue
-        autocmd BufLeave *                          colorscheme arnold
+        " autocmd BufLeave *                          colorscheme arnold
+        autocmd BufLeave *                          colorscheme evening
         " autocmd BufRead,BufNewFile,FileType !html   colorscheme arnold
     augroup END
 
